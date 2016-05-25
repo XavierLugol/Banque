@@ -9,7 +9,12 @@ public class ClientTest {
 	@Before
 	public void setup() {
 		// Given
-		client = new Client("Lugol","Xavier");
+		try {
+			client = new Client("Lugol","Xavier");
+		}
+		catch (BanqueException be) {
+			
+		}
 	}
 
 	@Test

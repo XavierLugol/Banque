@@ -47,8 +47,14 @@ public class Banque {
 	}
 
 	public Client ajouteClient(String nom, String prenom) {
-		Client client = new Client(nom,prenom);
-		return this.ajouteClient(client);
+		try {
+			Client client = new Client(nom,prenom);
+			return this.ajouteClient(client);
+		}
+		catch (BanqueException be) {
+			System.out.println(be.getMessage());
+		}
+		return null;
 	}
 	
 	public boolean supprimeClient(Client client) {

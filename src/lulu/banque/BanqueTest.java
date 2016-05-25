@@ -22,22 +22,25 @@ public class BanqueTest {
 	@Test
 	public void chercheNom() {
 		// When
-		Client cl = new Client("Lugol","Xavier");
-		banque.ajouteClient(cl);
-		Client clie = banque.getClient("Lugol","Xavier");
-		String nom = clie.getNom();
-//		int nb = banque.nombreClients();
-		//then
-		assertEquals(nom,"Lugol"); 
+		try {
+			Client cl = new Client("Lugol","Xavier");
+			banque.ajouteClient(cl);
+			Client clie = banque.getClient("Lugol","Xavier");
+			String nom = clie.getNom();
+//			int nb = banque.nombreClients();
+			//then
+			assertEquals(nom,"Lugol"); 
+		}
+		catch (BanqueException be){
+			System.out.println(be.getMessage());
+		}
 	}
 
 	@Test
 	public void testeNombreClients() {
 		// When
-		banque.ajouteClient(new Client("Lugol","Xavier"));
-		banque.ajouteClient(new Client("Dupond","Jean"));
-//		Client clie = banque.getClient("Lugol","Xavier");
-//		String nom = clie.getNom();
+//		banque.ajouteClient(new Client("Lugol","Xavier"));
+//		banque.ajouteClient(new Client("Dupond","Jean"));
 		int nb = banque.getClients().size();
 		//then
 		assertEquals(nb,2); 

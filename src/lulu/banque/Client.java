@@ -9,7 +9,18 @@ public class Client {
 	private String nomComplet;
 	private List<Compte> comptes = new ArrayList<>();
 	
-	public Client(String nom,String prenom){
+	public Client(String nom,String prenom) throws BanqueException{
+		StringBuffer message = new StringBuffer();
+		if (nom == null || nom.length() < 2) {
+			message.append("Saisir au moins 2 caractères pour le nom"); 
+		}
+		if (prenom == null || prenom.length() < 2) {
+			message.append("Saisir au moins 2 caractères pour le prénom"); 			
+		}
+		if (message.length() > 0) {
+			throw new BanqueException("Saisir au moins 2 caractères pour le nom");
+		}
+		
 		this.setNom(nom);
 		this.setPrenom(prenom);
 	}
