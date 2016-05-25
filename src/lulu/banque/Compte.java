@@ -4,7 +4,6 @@ public class Compte {
 	private String num;
 	private double solde;
 	private Client client;
-	private static int numCompte = 0;
 
 
 	public Compte(Client client) {
@@ -16,8 +15,7 @@ public class Compte {
 //		super();
 		this.setClient(client);
 		this.setSolde(depot);
-		Compte.numCompte=Compte.numCompte + 1;
-		this.setNum(new String(new Integer(Compte.numCompte).toString()));
+		this.setNum(client.nouveauNumero());
 	}
 	
 	public String getNum() {

@@ -65,5 +65,16 @@ public class Client {
 		return "Client [nom=" + nom + ", prenom=" + prenom + "]";
 	}
 	
+	// Return the next numéro de compte pour le client actuel
+	public String nouveauNumero() {
+		int maxNum = 0;
+		for (Compte compte:this.getComptes()){
+			if (Integer.parseInt(compte.getNum()) > maxNum) {
+				maxNum = Integer.parseInt(compte.getNum());
+			}
+		}
+		return new String(new Integer(maxNum + 1).toString());
+		
+	}
 
 }

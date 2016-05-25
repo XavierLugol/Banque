@@ -47,27 +47,35 @@ public class Banque {
 	// Add the client in parameters in the list of clients
 	// if not found in the list.
 	// Return the client in parameter ???
-	public Client ajouteClient(Client client) {
-		Client cl = this.getClient(client.getNom(), client.getPrenom());
-		if (cl == null) {
-				this.getClients().add(client);			
+	public Client ajouteClient(Client client) throws BanqueException{
+		try {
+			return this.ajouteClient(client.getNom(), client.getPrenom());
 		}
-		return client;	
+		catch (BanqueException be) {
+//			System.out.println(be.getMessage());
+			throw be;
+		}
 	}
 
 	// Add the client in parameters in the list of clients
 	// if not found in the list.
 	// Return the object client created or found in the List
 	// of clients
-	public Client ajouteClient(String nom, String prenom) {
-		try {
-			Client client = new Client(nom,prenom);
-			return this.ajouteClient(client);
+	public Client ajouteClient(String nom, String prenom) throws BanqueException {
+		Client client;
+		if (!this.existeClient(nom, prenom)) {
+			try {
+				client = new Client(nom,prenom);
+				this.getClients().add(client);							
+			}			
+			catch (BanqueException be) {
+//				System.out.println(be.getMessage());
+				throw be;
+			}
+		} else {
+			client = this.getClient(nom, prenom);
 		}
-		catch (BanqueException be) {
-			System.out.println(be.getMessage());
-			return null;
-		}
+		return client;
 	}
 	
 	public boolean supprimeClient(Client client) {
@@ -82,19 +90,49 @@ public class Banque {
 			return false;
 	}
 
-// Add a client in the List of client.
-// Idem ajouteClient, but return true instead of a client
+// Add a client in the List of client if not exists.
+// Idem ajouteClient. Return true anyway
 	public boolean ouvreCompte(Client client) {
-		this.ajouteClient(client);
-		this.getComptes().add(new Compte(client,0)) ;
-		return true;
+		return ouvreCompte(client,0);
 	}
 
-// Add a client in the List of client.
+// Add a client in the List of client if not exists.
 // Idem ajouteClient, but return true instead of a client
 	public boolean ouvreCompte(Client client,double depot) {
-		this.ajouteClient(client);
+		try {
+			this.ajouteClient(client);
+			Compte compte = new Compte(client,depot);
+			client.addCompte(compte);
+			this.getComptes().add(compte) ;
+		}
+		catch (BanqueException be) {
+			
+		}
 		return true;
 	}
 
+	public boolean ouvreCompte(String nom, String prenom) {
+		return this.ouvreCompte(nom, prenom, 0);
+	}
+
+	public boolean ouvreCompte(String nom, String prenom, double depot) {
+		try {
+			this.ajouteClient(nom, prenom);
+			Client client = this.getClient(nom, prenom);
+			return this.ouvreCompte(client, depot);
+		}
+		catch (BanqueException be) {
+			System.out.println(be.getMessage());
+			return false;
+		}
+	}
+
+	public boolean supprimeClient(){
+		return true;
+		
+	}
+	private boolean existeClient(String nom, String prenom) {
+		return !(this.getClient(nom,prenom) == null);
+	}
+	
 }

@@ -65,4 +65,21 @@ public class BanqueTest {
 		//then
 		assertEquals(nb,1); 
 	}
+	
+	@Test
+	public void testOuvreCompteClass() {
+		//when
+		banque.ouvreCompte(xlu);
+		banque.ouvreCompte(xlu);
+		//then
+		assertEquals(xlu.nouveauNumero(),"3");
+	}
+	
+	@Test(expected=AssertionError.class)
+	public void testOuvreCompteString() {
+		//when
+		boolean bol = banque.ouvreCompte("","");
+		//then
+		assertTrue(bol);
+	}
 }
