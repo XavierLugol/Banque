@@ -47,14 +47,11 @@ public class Banque {
 	// Add the client in parameters in the list of clients
 	// if not found in the list.
 	// Return the client in parameter ???
-	public Client ajouteClient(Client client) throws BanqueException{
-		try {
-			return this.ajouteClient(client.getNom(), client.getPrenom());
-		}
-		catch (BanqueException be) {
-//			System.out.println(be.getMessage());
-			throw be;
-		}
+	public Client ajouteClient(Client client) {
+		if (!this.existeClient(client.getNom(), client.getPrenom())) {
+				this.getClients().add(client);							
+		} 
+		return client;
 	}
 
 	// Add the client in parameters in the list of clients
@@ -66,28 +63,31 @@ public class Banque {
 		if (!this.existeClient(nom, prenom)) {
 			try {
 				client = new Client(nom,prenom);
-				this.getClients().add(client);							
 			}			
 			catch (BanqueException be) {
-//				System.out.println(be.getMessage());
 				throw be;
 			}
 		} else {
 			client = this.getClient(nom, prenom);
 		}
-		return client;
+		return this.ajouteClient(client);
 	}
 	
 	public boolean supprimeClient(Client client) {
-		return this.getClients().remove(client);		
+		boolean result = false;
+		
+		if (!(client == null)) {
+			for (Compte compte:client.getComptes()) {
+				this.getComptes().remove(compte);
+			}
+			result = this.getClients().remove(client);
+		}
+		return result;
 	}
 
 	public boolean supprimeClient(String nom, String prenom) {
-			Client client = this.getClient(nom, prenom);
-			if (!(client == null)) {
-				return this.getClients().remove(client);		
-			}
-			return false;
+		Client client = this.getClient(nom, prenom);
+		return this.supprimeClient(client);		
 	}
 
 // Add a client in the List of client if not exists.
@@ -99,15 +99,10 @@ public class Banque {
 // Add a client in the List of client if not exists.
 // Idem ajouteClient, but return true instead of a client
 	public boolean ouvreCompte(Client client,double depot) {
-		try {
-			this.ajouteClient(client);
-			Compte compte = new Compte(client,depot);
-			client.addCompte(compte);
-			this.getComptes().add(compte) ;
-		}
-		catch (BanqueException be) {
-			
-		}
+		this.ajouteClient(client);
+		Compte compte = new Compte(client,depot);
+		client.addCompte(compte);
+		this.getComptes().add(compte) ;			
 		return true;
 	}
 
@@ -127,10 +122,28 @@ public class Banque {
 		}
 	}
 
-	public boolean supprimeClient(){
-		return true;
-		
+	public boolean fermeCompte(String num) {
+		// Recherche du compte correspondant ) num
+		for (Compte compte:this.getComptes()) {
+			if (compte.getNum().equals(num)) {
+				return fermeCompte(compte);
+			}
+		}
+		return false;
 	}
+	
+	public boolean fermeCompte(Compte compte) {
+		boolean result = false; 
+		result = compte.getClient().getComptes().remove(compte);
+		for (Compte compteliste:this.getComptes()) {
+			if (compteliste.getNum().equals(compte.getNum())) {
+				return this.getComptes().remove(compteliste);
+			}
+		}
+		return result;
+	}
+
+	
 	private boolean existeClient(String nom, String prenom) {
 		return !(this.getClient(nom,prenom) == null);
 	}

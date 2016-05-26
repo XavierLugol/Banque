@@ -1,5 +1,9 @@
 package lulu.banque;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class Compte {
 	private String num;
 	private double solde;
@@ -8,14 +12,14 @@ public class Compte {
 
 	public Compte(Client client) {
 //		super();
-		this.setClient(client);
+		new Compte(client,0d);
 	}
 	
 	public Compte(Client client,double depot) {
 //		super();
 		this.setClient(client);
 		this.setSolde(depot);
-		this.setNum(client.nouveauNumero());
+		this.setNum(client.getNomComplet() + client.nouveauNumero());
 	}
 	
 	public String getNum() {
@@ -51,6 +55,18 @@ public class Compte {
 	public String toString() {
 		return "Compte [num=" + num + ", solde=" + solde + ", client=" + client + "]";
 	}
-	
+
+//	private static String toSHA1(String chaine) {
+//	    MessageDigest md = null;
+//	    try {
+//	    	byte[] mesBits = chaine.getBytes("UTF-8");
+//	        md = MessageDigest.getInstance("SHA-1");
+//		    return new String(md.digest(mesBits));
+//	    }
+//	    catch(NoSuchAlgorithmException | UnsupportedEncodingException e) {
+//	        e.printStackTrace();
+//	    } 
+//	    return "";
+//	}
 	
 }

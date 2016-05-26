@@ -25,6 +25,30 @@ public class BanqueTest {
 	}
 
 	@Test
+	public void testAjouteClient(){
+	//when
+	// Le test est fait dans le setup
+	// Then
+	assertEquals(banque.getClients().size(),2);
+	}
+	
+	@Test
+	public void testSuprimeClientString(){
+	//when
+	banque.supprimeClient("Lugol", "Xavier");
+	// Then
+	assertEquals(banque.getClients().size(),1);
+	}
+
+	@Test
+	public void testSuprimeClientObjet(){
+	//when
+	banque.supprimeClient(xlu);
+	// Then
+	assertEquals(banque.getClients().size(),1);
+	}
+	
+	@Test
 	public void chercheNomError() {
 			// When
 		Client cli = banque.getClient("Rififi","Xavier");

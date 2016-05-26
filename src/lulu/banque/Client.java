@@ -23,6 +23,7 @@ public class Client {
 		
 		this.setNom(nom);
 		this.setPrenom(prenom);
+		this.setNomComplet(nom+prenom);
 	}
 	public String getNom() {
 		return nom;
@@ -69,8 +70,10 @@ public class Client {
 	public String nouveauNumero() {
 		int maxNum = 0;
 		for (Compte compte:this.getComptes()){
-			if (Integer.parseInt(compte.getNum()) > maxNum) {
-				maxNum = Integer.parseInt(compte.getNum());
+			int index = (this.getNomComplet().length());
+			String num = compte.getNum().substring(index); 
+			if (Integer.parseInt(num) > maxNum) {
+				maxNum = Integer.parseInt(num);
 			}
 		}
 		return new String(new Integer(maxNum + 1).toString());
