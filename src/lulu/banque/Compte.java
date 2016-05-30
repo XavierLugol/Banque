@@ -55,7 +55,7 @@ public class Compte {
 	public String toString() {
 		return "Compte [num=" + num + ", solde=" + solde + ", client=" + client + "]";
 	}
-
+	
 //	private static String toSHA1(String chaine) {
 //	    MessageDigest md = null;
 //	    try {

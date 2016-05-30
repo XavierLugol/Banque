@@ -143,6 +143,10 @@ public class Banque {
 		return result;
 	}
 
+	public String toString() {
+		return "Banque avec " + this.getClients().size() + " clients et "
+				+ this.getComptes().size() + " comptes";
+	}
 	
 	private boolean existeClient(String nom, String prenom) {
 		return !(this.getClient(nom,prenom) == null);
